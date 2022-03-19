@@ -19,7 +19,24 @@
               method: "eth_requestAccounts",
             });
 
-            console.log(accounts);
+            const account = accounts[0];
+
+            const ownerMessage = "Hi!, I'm the account owner";
+
+            // Signing wallet to prove authenticity
+            const sign = await eth.request({
+              method: "personal_sign",
+              params: [ownerMessage, account],
+            });
+            console.log("sign", sign);
+
+            // Here would be the validations on the back end/server sice
+            const verifiedAccount = web3.eth.accounts.recover(
+              ownerMessage,
+              sign
+            );
+
+            console.log("recover", verifiedAccount);
           } catch (error) {
             console.log("error", error);
           }
