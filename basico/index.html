@@ -8,5 +8,25 @@
   </head>
   <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.1/web3.min.js"></script>
+    <script>
+      (async () => {
+        const eth = window.ethereum;
+        if (eth) {
+          try {
+            // Initialize wallet
+            const web3 = new Web3(eth);
+            const accounts = await eth.request({
+              method: "eth_requestAccounts",
+            });
+
+            console.log(accounts);
+          } catch (error) {
+            console.log("error", error);
+          }
+        } else {
+          alert("Nào possui carteira instalada.");
+        }
+      })();
+    </script>
   </body>
 </html>
