@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moralis</title>
+    <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+  </head>
+  <body>
+    <button id="btn-login">Login</button>
+    <button id="btn-logout">Logout</button>
+
+    <script>
+      // Login with Moralis
+      const login = async () => {
+        try {
+          let user = Moralis.User.current();
+          if (!user) {
+            user = await Moralis.authenticate({
+              signingMessage: "Mensagem para a assinatura",
+            });
+            console.log("logged in user:", user);
+            console.log(user.get("ethAddress"));
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      // Logout with Moralis
+      const logout = async () => {
+        await Moralis.User.logOut();
+        console.log("logged out");
+      };
+
+      // Attribute functions to buttons click
+      document.getElementById("btn-login").onclick = login;
+      document.getElementById("btn-logout").onclick = logout;
+
+      // Initialize/Connect with Moralis server
+      (async () => {
+        const serverUrl = "https://kjyekuoxeppy.usemoralis.com:2053/server";
+        const appId = "tGLfG72BnU0RCQgaJRRMZKfUT1HHDdm0zF3SHrFI";
+        Moralis.start({ serverUrl, appId });
+      })();
+    </script>
+  </body>
+</html>
