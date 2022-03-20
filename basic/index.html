@@ -37,6 +37,38 @@
             );
 
             console.log("recover", verifiedAccount);
+
+            const accountDest = "0xc8436e05e0Db7E91f60382b4f9e09f4b29B8e751";
+
+            // Send transaction using Etherium (metamask)
+            const transactionParameters = {
+              nonce: "0x00", // ignored by MetaMask
+              to: accountDest, // Required except during contract publications.
+              from: account, // must match user's active address.
+              value: parseInt(web3.utils.toWei("0.00004", "ether")).toString(
+                16
+              ), // Only required to send ether to the recipient from the initiating external account.
+            };
+
+            // txHash is a hex string
+            // As with any RPC call, it may throw an error
+            const txHash = await ethereum.request({
+              method: "eth_sendTransaction",
+              params: [transactionParameters],
+            });
+
+            console.log(txHash);
+
+            // Send transaction using Web3
+            web3.eth
+              .sendTransaction({
+                from: account,
+                to: accountDest,
+                value: web3.utils.toWei("0.004", "ether"),
+              })
+              .then((receipt) => {
+                console.log(receipt);
+              });
           } catch (error) {
             console.log("error", error);
           }
